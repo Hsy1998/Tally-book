@@ -25,11 +25,6 @@ export default class Types extends Vue {
     }
     this.type = type
   }
-
-  mounted() {
-    console.log(typeof this.xxx)
-    console.log(typeof this.xxx.toString())
-  }
 }
 
 // export default {

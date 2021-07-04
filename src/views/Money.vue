@@ -3,7 +3,7 @@
     <NumberPad />
     <Types :xxx="333" />
     <Notes />
-    <Tags />
+    <Tags :data-source.sync="tags" />
   </Layout>
 </template>
 
@@ -19,6 +19,11 @@ export default {
     Notes,
     NumberPad,
     Types,
+  },
+  data() {
+    return {
+      tags: ['衣', '食', '住', '行', '烟酒'],
+    }
   },
 }
 </script>
