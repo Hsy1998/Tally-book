@@ -17,6 +17,13 @@ import Vue from 'vue'
 import { Component, Watch } from 'vue-property-decorator'
 import model from '../model'
 
+type RecordItem = {
+  tags: string[]
+  notes: string
+  type: string
+  amount: number
+  creeatedAt?: Date
+}
 @Component({
   components: { Tags, Notes, Types, NumberPad },
 })
@@ -28,7 +35,7 @@ export default class Money extends Vue {
     type: '-',
     amount: 0,
   }
-  recordList = model.fetch()
+  recordList: RecordItem[] = model.fetch()
   onUpdateNotes(value: string) {
     this.record.notes = value
   }
@@ -36,12 +43,14 @@ export default class Money extends Vue {
     this.record.tags = value
   }
   saveRecord() {
-    const record2 = model.clone(this.record)
+    const record2: RecordItem = model.clone(this.record)
     record2.creeatedAt = new Date()
     this.recordList.push(record2)
   }
   @Watch('recordList')
-  onRecordListChange() {}
+  onRecordListChange() {
+    model.save(this.recordList)
+  }
 }
 </script>
 
