@@ -26,7 +26,7 @@ import { Component, Prop } from 'vue-property-decorator'
 
 @Component
 export default class NumberPad extends Vue {
-  @Prop() readonly value!: number
+  @Prop(Number) readonly value!: number
   output = this.value.toString()
   inputContent(event: MouseEvent) {
     const button = event.target as HTMLButtonElement
@@ -46,6 +46,14 @@ export default class NumberPad extends Vue {
       return
     }
     this.output += input
+  }
+  created() {
+    console.log('created', typeof this.value, this.value)
+    console.log(typeof this.output, ':', this.output)
+  }
+  mounted() {
+    console.log('mounted', typeof this.value, ':', this.value)
+    console.log(typeof this.output, ':', this.output)
   }
   remove() {
     if (this.output.length === 1) {
