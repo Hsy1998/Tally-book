@@ -1,9 +1,10 @@
 <template>
   <Layout classPrefix="layout">
-    <NumberPad :value.sync="record.amount" @sumbit="saveRecord" />
+    <NumberPad :value.sync="record.amount" @submit="saveRecord" />
     <Types :value.sync="record.type" />
     <Notes @update:value="onUpdateNotes" />
     <Tags :data-source.sync="tags" @update:value="onUpdateTags" />
+    {{ recordList }}
   </Layout>
 </template>
 

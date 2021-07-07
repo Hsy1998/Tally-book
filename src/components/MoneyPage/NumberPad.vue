@@ -23,10 +23,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-
 @Component
 export default class NumberPad extends Vue {
-  @Prop(Number) readonly value!: number
+  @Prop() readonly value!: number
   output = this.value.toString()
   inputContent(event: MouseEvent) {
     const button = event.target as HTMLButtonElement
@@ -51,7 +50,7 @@ export default class NumberPad extends Vue {
     if (this.output.length === 1) {
       this.output = '0'
     } else {
-      this.output = this.output.slice(0, -1) // 0 到 length - 1
+      this.output = this.output.slice(0, -1)
     }
   }
   clear() {
@@ -59,7 +58,7 @@ export default class NumberPad extends Vue {
   }
   ok() {
     this.$emit('update:value', this.output)
-    this.$emit('sumbit', this.output)
+    this.$emit('submit', this.output)
     this.output = '0'
   }
 }
