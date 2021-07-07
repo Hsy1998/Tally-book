@@ -14,20 +14,23 @@ import NumberPad from '../components/MoneyPage/NumberPad.vue'
 import Types from '../components/MoneyPage/Types.vue'
 import Vue from 'vue'
 import { Component, Watch } from 'vue-property-decorator'
-import model from '../model'
+import recordListModel from '../models/recordListModel'
+import tagListModel from '../models/tagListModel'
+
+tagListModel.fetch()
 
 @Component({
   components: { Tags, Notes, Types, NumberPad },
 })
 export default class Money extends Vue {
-  tags = ['衣', '食', '住', '行', '烟酒']
+  tags = tagListModel.data
   record: RecordItem = {
     tags: [],
     notes: '',
     type: '-',
     amount: 0,
   }
-  recordList = model.fetch()
+  recordList = recordListModel.fetch()
   onUpdateNotes(value: string) {
     this.record.notes = value
   }
@@ -35,13 +38,13 @@ export default class Money extends Vue {
     this.record.tags = value
   }
   saveRecord() {
-    const record2 = model.clone(this.record)
-    record2.creeatedAt = new Date()
+    const record2 = recordListModel.clone(this.record)
+    record2.createdAt = new Date()
     this.recordList.push(record2)
   }
   @Watch('recordList')
   onRecordListChange() {
-    model.save(this.recordList)
+    recordListModel.save(this.recordList)
   }
 }
 </script>

@@ -47,14 +47,6 @@ export default class NumberPad extends Vue {
     }
     this.output += input
   }
-  created() {
-    console.log('created', typeof this.value, this.value)
-    console.log(typeof this.output, ':', this.output)
-  }
-  mounted() {
-    console.log('mounted', typeof this.value, ':', this.value)
-    console.log(typeof this.output, ':', this.output)
-  }
   remove() {
     if (this.output.length === 1) {
       this.output = '0'
