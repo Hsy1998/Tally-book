@@ -2,7 +2,11 @@
   <Layout classPrefix="layout">
     <NumberPad :value.sync="record.amount" @submit="saveRecord" />
     <Types :value.sync="record.type" />
-    <Notes @update:value="onUpdateNotes" />
+    <FormItem
+      @update:value="onUpdateNotes"
+      fild-name="备注"
+      placeholder="请在这里添加备注"
+    />
     <Tags :data-source.sync="tags" @update:value="onUpdateTags" />
     {{ recordList }}
   </Layout>
@@ -10,7 +14,7 @@
 
 <script lang="ts">
 import Tags from '../components/MoneyPage/Tags.vue'
-import Notes from '../components/MoneyPage/Notes.vue'
+import FormItem from '../components/MoneyPage/FormItem.vue'
 import NumberPad from '../components/MoneyPage/NumberPad.vue'
 import Types from '../components/MoneyPage/Types.vue'
 import Vue from 'vue'
@@ -21,10 +25,10 @@ import tagListModel from '../models/tagListModel'
 tagListModel.fetch()
 
 @Component({
-  components: { Tags, Notes, Types, NumberPad },
+  components: { Tags, FormItem, Types, NumberPad },
 })
 export default class Money extends Vue {
-  tags = tagListModel.data
+  tags = tagListModel.data.map((item) => item.name)
   record: RecordItem = {
     tags: [],
     notes: '',
@@ -56,5 +60,3 @@ export default class Money extends Vue {
   flex-direction: column-reverse;
 }
 </style>
-
-<style lang="scss" scoped></style>

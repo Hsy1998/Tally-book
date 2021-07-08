@@ -1,7 +1,11 @@
 const localStorageKeyName = 'tagList'
+type Tag = {
+  id: string,
+  name: string
+}
 type tagList = {
-  data: string[]
-  fetch: () => string[]
+  data: Tag[]
+  fetch: () => Tag[]
   save: ()=>void
   create: (name: string) => 'success' | 'duplicated' | 'null'
 }
@@ -14,9 +18,10 @@ const tagListModel: tagList = {
   save(){
     window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data))
   },
-  create(name) {
-    if(this.data.indexOf(name) >= 0){return 'duplicated'} 
-    this.data.push(name)
+  create(name:string) {
+    const names = this.data.map(item => item.name)
+    if(names.indexOf(name) >= 0){return 'duplicated'} 
+    this.data.push({id: name, name: name})
     this.save()
     return 'success'
   }
