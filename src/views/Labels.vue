@@ -16,6 +16,7 @@
         新建标签
       </Button>
     </div>
+    <FormItem fild-name="标签名" placeholder="请输入标签名" />
   </Layout>
 </template>
 
@@ -24,9 +25,10 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import tagListModel from '@/models/tagListModel'
 import Button from '@/components/Button.vue'
+import FormItem from '../components/MoneyPage/FormItem.vue'
 tagListModel.fetch()
 @Component({
-  components: { Button },
+  components: { Button, FormItem },
 })
 export default class Labels extends Vue {
   tags = tagListModel.data

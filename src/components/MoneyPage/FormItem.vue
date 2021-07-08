@@ -1,7 +1,7 @@
 <template>
   <div>
-    <label class="notes">
-      <span class="name">{{ fildName }}</span>
+    <label class="formItem">
+      <span class="name">{{ this.fildName }}</span>
       <input type="text" :placeholder="this.placeholder" v-model="value" />
     </label>
   </div>
@@ -13,8 +13,10 @@ import { Component, Prop, Watch } from 'vue-property-decorator'
 @Component
 export default class FormItem extends Vue {
   value = ''
-  @Prop() fildName!: string
+
+  @Prop({ required: true }) fildName!: string
   @Prop() placeholder?: string
+
   @Watch('value')
   onValueChange(value: string) {
     this.$emit('update:value', this.value)
@@ -23,10 +25,8 @@ export default class FormItem extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.notes {
-  display: block;
-  background: #f5f5f5;
-  font-size: 14px;
+.formItem {
+  font-size: 16px;
   padding-left: 16px;
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@ export default class FormItem extends Vue {
     padding-right: 16px;
   }
   input {
-    height: 64px;
+    height: 40px;
     flex-grow: 1;
     background: transparent;
     border: none;
