@@ -68,8 +68,6 @@ export default class Labels extends Vue {
   }
 }
 .createTag {
-  background: #008c8c;
-
   &-wrapper {
     text-align: center;
     padding: 16px;

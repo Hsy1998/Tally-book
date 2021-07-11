@@ -4,12 +4,16 @@
   </button>
 </template>
 
-<script>
-export default {}
+<script lang="ts">
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
+@Component
+export default class Button extends Vue {}
 </script>
 
 <style lang="scss">
 .button {
+  background: #008c8c;
   color: white;
   border-radius: 4px;
   border: none;
