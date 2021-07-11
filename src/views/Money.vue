@@ -2,13 +2,15 @@
   <Layout classPrefix="layout">
     <NumberPad :value.sync="record.amount" @submit="saveRecord" />
     <Types :value.sync="record.type" />
-    <FormItem
-      @update:value="onUpdateNotes"
-      fild-name="备注"
-      placeholder="请在这里添加备注"
-    />
+    <div class="notes">
+      <FormItem
+        @update:value="onUpdateNotes"
+        fild-name="备注"
+        placeholder="请在这里添加备注"
+      />
+    </div>
+
     <Tags :data-source.sync="tags" @update:value="onUpdateTags" />
-    {{ recordList }}
   </Layout>
 </template>
 
@@ -58,5 +60,8 @@ export default class Money extends Vue {
 .layout-content {
   display: flex;
   flex-direction: column-reverse;
+}
+.notes {
+  padding: 12px 0;
 }
 </style>

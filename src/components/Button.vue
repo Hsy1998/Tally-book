@@ -8,9 +8,8 @@
 export default {}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .button {
-  background: #2355fa;
   color: white;
   border-radius: 4px;
   border: none;
