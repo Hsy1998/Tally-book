@@ -16,7 +16,6 @@
         新建标签
       </Button>
     </div>
-    <FormItem fild-name="标签名" placeholder="请输入标签名" />
   </Layout>
 </template>
 

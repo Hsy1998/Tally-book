@@ -9,6 +9,7 @@ type tagList = {
   save: ()=>void
   create: (name: string) => 'success' | 'duplicated' | 'null'
   update: (id: string, name: string) => 'success' | 'duplicated' | 'not fund'
+  remove: (id: string) => boolean
 }
 const tagListModel: tagList = {
   data: [],
@@ -34,9 +35,8 @@ const tagListModel: tagList = {
         return 'duplicated'
       }else {
         const tag = this.data.filter(item => item.id === id)[0]
-        console.log(tag, 'item.id');
-      
         tag.name = name
+         
         this.save()
         return 'success'
       }
@@ -44,6 +44,20 @@ const tagListModel: tagList = {
       return 'not fund'
     }
   },
+  remove(id: string) {
+    let index = -1
+    for(let i = 0; i < this.data.length; i ++){
+      if(this.data[i].id === id){
+        index = i
+        break
+      }
+    }
+    this.data.splice(index, 1)
+    this.save()
+    console.log(this.data,999);
+    
+    return true
+  }
 
 }
 export default tagListModel
