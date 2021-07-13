@@ -11,7 +11,6 @@
     </div>
 
     <Tags :data-source.sync="tags" @update:value="onUpdateTags" />
-    {{ record }}
   </Layout>
 </template>
 
@@ -25,20 +24,21 @@ import { Component, Watch } from 'vue-property-decorator'
 import recordListModel from '../models/recordListModel'
 import tagListModel from '../models/tagListModel'
 
-tagListModel.fetch()
+const tagList = tagListModel.fetch() // 获取标签
 
 @Component({
   components: { Tags, FormItem, Types, NumberPad },
 })
 export default class Money extends Vue {
-  tags = tagListModel.data.map((item) => item.name)
+  // tags = tagListModel.data.map((item) => item.name)
+  tags = tagList
   record: RecordItem = {
     tags: [],
     notes: '',
     type: '-',
     amount: 0,
   }
-  recordList = recordListModel.fetch()
+  recordList = recordListModel.fetch() // 获取用户所有数据
   onUpdateNotes(value: string) {
     this.record.notes = value
   }
@@ -46,13 +46,11 @@ export default class Money extends Vue {
     this.record.tags = value
   }
   saveRecord() {
-    const record2 = recordListModel.clone(this.record)
-    record2.createdAt = new Date()
-    this.recordList.push(record2)
+    recordListModel.create(this.record) // 创建一个新数据
   }
   @Watch('recordList')
   onRecordListChange() {
-    recordListModel.save(this.recordList)
+    recordListModel.save(this.recordList) // 保存数据
   }
 }
 </script>
