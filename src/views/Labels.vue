@@ -25,23 +25,18 @@ import { Component } from 'vue-property-decorator'
 import tagListModel from '@/models/tagListModel'
 import Button from '@/components/Button.vue'
 import FormItem from '../components/MoneyPage/FormItem.vue'
-tagListModel.fetch()
+
 @Component({
   components: { Button, FormItem },
 })
 export default class Labels extends Vue {
-  tags = tagListModel.data
+  tags = window.tagList
   createTag() {
     const name = window.prompt('请输入标签名')
     if (name) {
-      const message = tagListModel.create(name)
-      if (message === 'duplicated') {
-        window.alert('标签名重复了')
-      } else if (message === 'success') {
-        window.alert('新建标签成功')
-      } else {
-        window.alert('标签名不能为空')
-      }
+      window.createTag(name)
+    } else {
+      window.alert('标签名不能为空')
     }
   }
 }

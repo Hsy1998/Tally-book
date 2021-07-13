@@ -1,10 +1,7 @@
 import createId from '@/lib/createId'
 
 const localStorageKeyName = 'tagList'
-type Tag = {
-  id: string,
-  name: string
-}
+
 type tagList = {
   data: Tag[]
   fetch: () => Tag[]

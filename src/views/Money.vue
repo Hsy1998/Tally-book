@@ -24,21 +24,23 @@ import { Component, Watch } from 'vue-property-decorator'
 import recordListModel from '../models/recordListModel'
 import tagListModel from '../models/tagListModel'
 
-const tagList = tagListModel.fetch() // 获取标签
+const recordList = recordListModel.fetch() // 获取用户所有数据
 
 @Component({
   components: { Tags, FormItem, Types, NumberPad },
 })
 export default class Money extends Vue {
   // tags = tagListModel.data.map((item) => item.name)
-  tags = tagList
+  tags = window.tagList
+  recordList: RecordItem[] = recordList
+
   record: RecordItem = {
     tags: [],
     notes: '',
     type: '-',
     amount: 0,
   }
-  recordList = recordListModel.fetch() // 获取用户所有数据
+
   onUpdateNotes(value: string) {
     this.record.notes = value
   }
