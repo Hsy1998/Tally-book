@@ -21,9 +21,6 @@ import NumberPad from '../components/MoneyPage/NumberPad.vue'
 import Types from '../components/MoneyPage/Types.vue'
 import Vue from 'vue'
 import { Component, Watch } from 'vue-property-decorator'
-import recordListModel from '../models/recordListModel'
-
-const recordList = recordListModel.fetch() // 获取用户所有数据
 
 @Component({
   components: { Tags, FormItem, Types, NumberPad },
@@ -31,7 +28,7 @@ const recordList = recordListModel.fetch() // 获取用户所有数据
 export default class Money extends Vue {
   // tags = tagListModel.data.map((item) => item.name)
   tags = window.tagList
-  recordList: RecordItem[] = recordList
+  recordList = window.recordList
 
   record: RecordItem = {
     tags: [],
@@ -47,11 +44,7 @@ export default class Money extends Vue {
     this.record.tags = value
   }
   saveRecord() {
-    recordListModel.create(this.record) // 创建一个新数据
-  }
-  @Watch('recordList')
-  onRecordListChange() {
-    recordListModel.save(this.recordList) // 保存数据
+    window.createRecord(this.record) // 创建一个新数据
   }
 }
 </script>
