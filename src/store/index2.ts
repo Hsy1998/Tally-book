@@ -1,9 +1,11 @@
-import recordStore from "./recordStore";
-import tagStore from "./tagStore";
+import recordStore from './recordStore'
+import tagStore from './tagStore'
 
 const store = {
- ...recordStore,
- ...tagStore
+  ...recordStore,
+  ...tagStore,
 }
+
+console.log(store)
 
 export default store
