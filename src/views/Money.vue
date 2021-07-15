@@ -10,7 +10,7 @@
       />
     </div>
 
-    <Tags :data-source.sync="tags" @update:value="onUpdateTags" />
+    <Tags @update:value="onUpdateTags" />
   </Layout>
 </template>
 
@@ -28,7 +28,7 @@ import store from '@/store/index2.ts'
 })
 export default class Money extends Vue {
   // tags = tagListModel.data.map((item) => item.name)
-  tags = store.tagList
+
   recordList = store.recordList
 
   record: RecordItem = {
