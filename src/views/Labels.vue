@@ -22,22 +22,20 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
+import { mixins } from 'vue-class-component'
 import Button from '@/components/Button.vue'
+import createTag from '@/mixins/tagHelper.ts'
 import FormItem from '../components/MoneyPage/FormItem.vue'
-import store from '@/store/index2.ts'
 
 @Component({
   components: { Button, FormItem },
 })
-export default class Labels extends Vue {
-  tags = store.tagList
-  createTag() {
-    const name = window.prompt('请输入标签名')
-    if (name) {
-      store.createTag(name)
-    } else {
-      window.alert('标签名不能为空')
-    }
+export default class Labels extends mixins(createTag) {
+  get tags() {
+    return this.$store.state.tagList
+  }
+  created() {
+    this.$store.commit('fetchTags')
   }
 }
 </script>

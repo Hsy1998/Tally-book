@@ -21,21 +21,24 @@ import NumberPad from '../components/MoneyPage/NumberPad.vue'
 import Types from '../components/MoneyPage/Types.vue'
 import Vue from 'vue'
 import { Component, Watch } from 'vue-property-decorator'
-import store from '@/store/index2.ts'
 
 @Component({
   components: { Tags, FormItem, Types, NumberPad },
 })
 export default class Money extends Vue {
   // tags = tagListModel.data.map((item) => item.name)
-
-  recordList = store.recordList
-
+  get recordList() {
+    return this.$store.state.recordList
+  }
   record: RecordItem = {
     tags: [],
     notes: '',
     type: '-',
     amount: 0,
+  }
+
+  created() {
+    this.$store.commit('fetchRecords')
   }
 
   onUpdateNotes(value: string) {
@@ -45,7 +48,7 @@ export default class Money extends Vue {
     this.record.tags = value
   }
   saveRecord() {
-    store.createRecord(this.record) // 创建一个新数据
+    this.$store.commit('createRecord', this.record) // 创建一个新数据
   }
 }
 </script>
