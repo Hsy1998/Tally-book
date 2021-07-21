@@ -29,6 +29,7 @@ import Buttom from '../Button.vue'
   components: { FormItem, Buttom },
 })
 export default class EditLabel extends Vue {
+  // 类需要通过 get 去取store.state里的值
   get currentTag() {
     return this.$store.state.currentTag
   }
