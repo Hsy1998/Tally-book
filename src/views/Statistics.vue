@@ -11,11 +11,13 @@
       :data-source="intervalList"
     />
     <ol>
-      <li v-for="(group, index) in result" :key="index">
-        <h3 class="title">{{ group.title }}</h3>
+      <li v-for="group in result" :key="group.title">
+        <h3 class="title">{{ beautify(group.title) }}</h3>
         <ol>
           <li class="record" v-for="(item, index) in group.items" :key="index">
-            <span>{{ item.tags.length === 0 ? '无' : item.tags[0].name }}</span>
+            <span class="tag"
+              >{{ item.tags.length === 0 ? '无' : item.tags[0].name }}
+            </span>
             <span class="note">{{ item.notes }}</span>
             <span> ￥{{ item.amount }} </span>
           </li>
@@ -31,6 +33,7 @@ import Component from 'vue-class-component'
 import Tabs from '../components/Tabs.vue'
 import intervalList from '@/constants/intervalList.ts'
 import recordTypesList from '@/constants/recordTypesList.ts'
+import dayjs from 'dayjs'
 
 @Component({
   components: { Tabs },
@@ -52,13 +55,29 @@ export default class Statistics extends Vue {
       hashTable[date] = hashTable[date] || { title: date, items: [] }
       hashTable[date].items.push(recordList[i])
     }
-    console.log(hashTable)
-
     return hashTable
   }
 
   created() {
     this.$store.commit('fetchRecords')
+  }
+
+  beautify(string: String) {
+    const day = dayjs(string)
+    const now = dayjs()
+    // isSame 是同样的
+    if (day.isSame(now, 'day')) {
+      return '今天'
+      // subtract 减去
+    } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
+      return '昨天'
+    } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
+      return '前天'
+    } else if (day.isSame(now, 'year')) {
+      return day.format('M月D日')
+    } else {
+      return day.format('YYYY年MM月DD日')
+    }
   }
 
   type = '-'
@@ -96,11 +115,18 @@ export default class Statistics extends Vue {
   background: white;
   @extend %item;
 }
+.tag {
+  min-width: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .note {
   margin-right: auto;
-  margin-left: 16px;
+  margin-left: 8px;
   color: #999;
-
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
