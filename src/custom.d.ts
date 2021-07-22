@@ -3,21 +3,24 @@ type RecordItem = {
   notes: string
   type: string
   amount: number
-  creeatedAt?: Date
+  creeatedAt?: string
 }
 
 type Tag = {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 type TagListModel = {
   tagList: Tag[]
   fetchTags: () => Tag[]
   createTag: (name: string) => 'success' | 'duplicated' // 联合类型
-  updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
+  updateTag: (
+    id: string,
+    name: string
+  ) => 'success' | 'not found' | 'duplicated'
   removeTag: (id: string) => boolean
   saveTag: () => void
-  findTag: (id:string) => Tag
+  findTag: (id: string) => Tag
 }
 interface Window {
   // tagList: Tag[]
