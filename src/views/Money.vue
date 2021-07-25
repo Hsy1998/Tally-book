@@ -10,7 +10,7 @@
       />
     </div>
 
-    <Tags :selectedTags.sync="record.tags" />
+    <Tags @update:value="onUpdateTags" />
   </Layout>
 </template>
 
@@ -42,6 +42,9 @@ export default class Money extends Vue {
   created() {
     this.$store.commit('fetchRecords')
   }
+  onUpdateTags(value: string[]) {
+    this.record.tags = value
+  }
   saveRecord() {
     if (!this.record.tags || this.record.tags.length === 0) {
       return window.alert('请至少选择一个标签')
@@ -52,7 +55,6 @@ export default class Money extends Vue {
     if (this.$store.state.createRecordError === null) {
       window.alert('保存成功')
     }
-    this.record.tags = []
     this.record.notes = ''
   }
 }

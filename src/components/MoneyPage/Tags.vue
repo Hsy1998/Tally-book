@@ -31,17 +31,15 @@ export default class Tags extends mixins(createTag) {
   created() {
     this.$store.commit('fetchTags')
   }
-  @Prop(Array) selectedTags?: Tag[] = []
-  toggle(tag: Tag) {
-    if (this.selectedTags) {
-      let index = this.selectedTags.indexOf(tag)
-      if (index >= 0) {
-        this.selectedTags.splice(index, 1)
-      } else {
-        this.selectedTags.push(tag)
-      }
-      this.$emit('update:value', this.selectedTags)
+  selectedTags: string[] = []
+  toggle(tag: string) {
+    let index = this.selectedTags.indexOf(tag)
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1)
+    } else {
+      this.selectedTags.push(tag)
     }
+    this.$emit('update:value', this.selectedTags)
   }
 }
 </script>
