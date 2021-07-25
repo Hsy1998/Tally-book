@@ -3,16 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --open",
+    "serve": "vue-cli-service serve --oprn",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.4.4",
-    "dayjs": "1.8.20",
+    "dayjs": "^1.8.20",
     "register-service-worker": "^1.6.2",
-    "typescript": "^3.7.5",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.3.0",
@@ -21,8 +20,6 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
-    "@types/node": "^16.0.0",
-    "@types/webpack-env": "^1.15.1",
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-eslint": "^4.1.0",
     "@vue/cli-plugin-pwa": "^4.1.0",
@@ -41,6 +38,7 @@
     "svg-sprite-loader": "^4.1.6",
     "svg-sprite-loader-mod": "^4.1.6-mod1",
     "svgo-loader": "^2.2.1",
+    "typescript": "~3.7.5",
     "vue-template-compiler": "^2.6.10"
   },
   "gitHooks": {
@@ -51,5 +49,9 @@
       "vue-cli-service lint",
       "git add"
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": "git@github.com:Hsy1998/Tally-book.git",
+  "author": "Hsy <a553331998@gmail.com>",
+  "license": "MIT"
 }

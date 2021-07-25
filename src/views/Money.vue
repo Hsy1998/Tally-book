@@ -4,13 +4,13 @@
     <Tabs :value.sync="record.type" :data-source="recordTypesList" />
     <div class="notes">
       <FormItem
-        @update:value="onUpdateNotes"
+        :value.sync="record.notes"
         fild-name="备注"
         placeholder="请在这里添加备注"
       />
     </div>
 
-    <Tags @update:value="onUpdateTags" />
+    <Tags :selectedTags.sync="record.tags" />
   </Layout>
 </template>
 
@@ -42,15 +42,18 @@ export default class Money extends Vue {
   created() {
     this.$store.commit('fetchRecords')
   }
-
-  onUpdateNotes(value: string) {
-    this.record.notes = value
-  }
-  onUpdateTags(value: string[]) {
-    this.record.tags = value
-  }
   saveRecord() {
+    if (!this.record.tags || this.record.tags.length === 0) {
+      return window.alert('请至少选择一个标签')
+    } else if (this.record.amount === 0) {
+      return window.alert('金额不能为0')
+    }
     this.$store.commit('createRecord', this.record) // 创建一个新数据
+    if (this.$store.state.createRecordError === null) {
+      window.alert('保存成功')
+    }
+    this.record.tags = []
+    this.record.notes = ''
   }
 }
 </script>

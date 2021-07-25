@@ -31,8 +31,8 @@ export default class Tags extends mixins(createTag) {
   created() {
     this.$store.commit('fetchTags')
   }
-  selectedTags: string[] = []
-  toggle(tag: string) {
+  @Prop({ default: [] }) selectedTags!: Tag[]
+  toggle(tag: Tag[]) {
     let index = this.selectedTags.indexOf(tag)
     if (index >= 0) {
       this.selectedTags.splice(index, 1)

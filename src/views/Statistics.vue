@@ -5,20 +5,23 @@
       class-prefix="type"
       :data-source="recordTypesList"
     />
-    <ol>
+    <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index">
-        <h3 class="title">{{ beautify(group.title) }}</h3>
+        <h3 class="title">
+          {{ beautify(group.title) }} <span>{{ group.total }}</span>
+        </h3>
         <ol>
           <li class="record" v-for="(item, index) in group.items" :key="index">
-            <span class="tag"
-              >{{ item.tags.length === 0 ? '无' : item.tags[0].name }}
-            </span>
+            <span class="tag">{{ tagString(item.tags) }} </span>
             <span class="note">{{ item.notes }}</span>
             <span> ￥{{ item.amount }} </span>
           </li>
         </ol>
       </li>
     </ol>
+    <div v-else class="noResult">
+      目前还未记账
+    </div>
   </Layout>
 </template>
 
@@ -41,16 +44,17 @@ export default class Statistics extends Vue {
 
   get groupedList() {
     const { recordList } = this
-    if (recordList.length === 0) {
-      return []
-    }
 
     const newList = clone(recordList)
       .filter((r) => r.type === this.type)
       .sort(
         (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
       )
-    const result = [
+    if (newList.length === 0) {
+      return []
+    }
+    type Result = { title: string; total?: number; items: RecordItem[] }[]
+    const result: RecordItem = [
       {
         title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'),
         items: [newList[0]],
@@ -69,9 +73,9 @@ export default class Statistics extends Vue {
         console.log(current)
       }
     }
-    console.log(recordList, 888)
-
-    console.log(result)
+    result.map((group) => {
+      group.total = group.items.reduce((sum, item) => sum + item.amount, 0)
+    })
 
     return result
   }
@@ -79,8 +83,7 @@ export default class Statistics extends Vue {
   created() {
     this.$store.commit('fetchRecords')
   }
-
-  beautify(string: String) {
+  beautify(string: string) {
     const day = dayjs(string)
     const now = dayjs()
     // isSame 是同样的
@@ -96,6 +99,9 @@ export default class Statistics extends Vue {
     } else {
       return day.format('YYYY年MM月DD日')
     }
+  }
+  tagString(Tags: Tag[]) {
+    return Tags.length === 0 ? '无' : Tags.map((item) => item.name).join('，')
   }
 
   type = '-'
@@ -144,5 +150,9 @@ export default class Statistics extends Vue {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.noResult {
+  text-align: center;
+  padding: 16px;
 }
 </style>
