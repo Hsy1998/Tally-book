@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --oprn",
+    "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
@@ -49,9 +49,5 @@
       "vue-cli-service lint",
       "git add"
     ]
-  },
-  "main": "index.js",
-  "repository": "git@github.com:Hsy1998/Tally-book.git",
-  "author": "Hsy <a553331998@gmail.com>",
-  "license": "MIT"
+  }
 }
