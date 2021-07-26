@@ -45,7 +45,7 @@ export default class Money extends Vue {
   onUpdateTags(value: Tag[]) {
     this.record.tags = value
   }
-  saveRecord() {
+  public saveRecord() {
     if (!this.record.tags || this.record.tags.length === 0) {
       return window.alert('请至少选择一个标签')
     } else if (this.record.amount === 0) {
@@ -55,7 +55,10 @@ export default class Money extends Vue {
     if (this.$store.state.createRecordError === null) {
       window.alert('保存成功')
     }
-    this.$refs.Tags.selectedTags = []
+    if (this.$refs.Tags) {
+      const tagsMethods = this.$refs['Tags'] as Tags
+      tagsMethods.selectedTags = []
+    }
     this.record.notes = ''
   }
 }
