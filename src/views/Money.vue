@@ -10,7 +10,7 @@
       />
     </div>
 
-    <Tags @update:value="onUpdateTags" />
+    <Tags @update:value="onUpdateTags" ref="Tags" />
   </Layout>
 </template>
 
@@ -55,6 +55,7 @@ export default class Money extends Vue {
     if (this.$store.state.createRecordError === null) {
       window.alert('保存成功')
     }
+    this.$refs.Tags.selectedTags = []
     this.record.notes = ''
   }
 }
