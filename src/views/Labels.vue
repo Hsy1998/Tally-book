@@ -36,6 +36,7 @@ export default class Labels extends mixins(createTag) {
   }
   created() {
     this.$store.commit('fetchTags')
+    window.scrollTo(0, 0)
   }
 }
 </script>

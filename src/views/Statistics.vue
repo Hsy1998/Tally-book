@@ -1,26 +1,36 @@
 <template>
   <Layout>
-    <Tabs
-      :value.sync="type"
-      class-prefix="type"
-      :data-source="recordTypesList"
-    />
-    <ol v-if="groupedList.length > 0">
-      <li v-for="(group, index) in groupedList" :key="index">
-        <h3 class="title">
-          {{ beautify(group.title) }} <span>￥{{ group.total }}</span>
-        </h3>
-        <ol>
-          <li class="record" v-for="(item, index) in group.items" :key="index">
-            <span class="tag">{{ tagString(item.tags) }} </span>
-            <span class="note">{{ item.notes }}</span>
-            <span> ￥{{ item.amount }} </span>
-          </li>
-        </ol>
-      </li>
-    </ol>
-    <div v-else class="noResult">
-      目前没有相关记录
+    <div ref="content">
+      <Tabs
+        :value.sync="type"
+        class-prefix="type"
+        :data-source="recordTypesList"
+      />
+      <div class="charts-wrapper" ref="ChartsWrapper">
+        <Charts class="charts" :options="x" />
+      </div>
+
+      <ol v-if="groupedList.length > 0">
+        <li v-for="(group, index) in groupedList" :key="index">
+          <h3 class="title">
+            {{ beautify(group.title) }} <span>￥{{ group.total }}</span>
+          </h3>
+          <ol>
+            <li
+              class="record"
+              v-for="(item, index) in group.items"
+              :key="index"
+            >
+              <span class="tag">{{ tagString(item.tags) }} </span>
+              <span class="note">{{ item.notes }}</span>
+              <span> ￥{{ item.amount }} </span>
+            </li>
+          </ol>
+        </li>
+      </ol>
+      <div v-else class="noResult">
+        目前没有相关记录
+      </div>
     </div>
   </Layout>
 </template>
@@ -33,9 +43,10 @@ import intervalList from '@/constants/intervalList.ts'
 import recordTypesList from '@/constants/recordTypesList.ts'
 import dayjs from 'dayjs'
 import clone from '@/lib/clone'
+import Charts from '@/components/Charts.vue'
 
 @Component({
-  components: { Tabs },
+  components: { Tabs, Charts },
 })
 export default class Statistics extends Vue {
   get recordList() {
@@ -80,8 +91,102 @@ export default class Statistics extends Vue {
     return result
   }
 
+  get x() {
+    return {
+      title: {
+        text: 'ECharts 入门示例',
+      },
+      grid: {
+        // 去掉echarts左右padding
+        left: 0,
+        right: 0,
+      },
+      tooltip: {},
+      xAxis: {
+        type: 'category',
+        data: [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+        ],
+      },
+      yAxis: {
+        show: false,
+      },
+      series: [
+        {
+          name: '销量',
+          type: 'line',
+          data: [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+          ],
+        },
+      ],
+    }
+  }
+
   created() {
     this.$store.commit('fetchRecords')
+  }
+  mounted() {
+    window.scrollTo(0, 0)
+    ;(this.$refs.ChartsWrapper as HTMLDivElement).scrollLeft = 9999
   }
   beautify(string: string) {
     const day = dayjs(string)
@@ -154,5 +259,11 @@ export default class Statistics extends Vue {
 .noResult {
   text-align: center;
   padding: 16px;
+}
+.charts-wrapper {
+  overflow: auto;
+}
+.charts {
+  width: 430%;
 }
 </style>
