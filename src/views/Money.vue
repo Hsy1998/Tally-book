@@ -10,7 +10,7 @@
       />
     </div>
 
-    <Tags @update:value="onUpdateTags" />
+    <Tags @update:value="onUpdateTags" ref="Tags" />
   </Layout>
 </template>
 
@@ -45,7 +45,7 @@ export default class Money extends Vue {
   onUpdateTags(value: Tag[]) {
     this.record.tags = value
   }
-  saveRecord() {
+  public saveRecord() {
     if (!this.record.tags || this.record.tags.length === 0) {
       return window.alert('请至少选择一个标签')
     } else if (this.record.amount === 0) {
@@ -54,6 +54,10 @@ export default class Money extends Vue {
     this.$store.commit('createRecord', this.record) // 创建一个新数据
     if (this.$store.state.createRecordError === null) {
       window.alert('保存成功')
+    }
+    if (this.$refs.Tags) {
+      const tagsMethods = this.$refs['Tags'] as Tags
+      tagsMethods.selectedTags = []
     }
     this.record.notes = ''
   }

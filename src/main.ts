@@ -23,7 +23,3 @@ window.onload = () => {
     window.scrollTo(0, 10000)
   }, 0)
 }
-
-
-
-
