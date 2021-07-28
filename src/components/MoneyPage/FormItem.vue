@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <label class="formItem">
-      <span class="name">{{ this.fildName }}</span>
-      <template v-if="type === 'date'">
-        <input
-          :type="type || 'text'"
-          :placeholder="placeholder"
-          :value="x(value)"
-          @input="onValueChange($event.target.value)"
-        />
-      </template>
-      <template v-else>
-        <input
-          type="text"
-          :placeholder="placeholder"
-          :value="value"
-          @input="onValueChange($event.target.value)"
-        />
-      </template>
-    </label>
-  </div>
+  <label class="formItem">
+    <span class="name">{{ this.fildName }}</span>
+    <template v-if="type === 'date'">
+      <input
+        :type="type || 'text'"
+        :placeholder="placeholder"
+        :value="x(value)"
+        @input="onValueChange($event.target.value)"
+      />
+    </template>
+    <template v-else>
+      <input
+        type="text"
+        :placeholder="placeholder"
+        :value="value"
+        @input="onValueChange($event.target.value)"
+      />
+    </template>
+  </label>
 </template>
 <script lang="ts">
 import dayjs from 'dayjs'

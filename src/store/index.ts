@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import clone from '@/lib/clone'
 import createId from '@/lib/createId'
 import router from '@/router'
+import dayjs from 'dayjs'
 
 Vue.use(Vuex) // 将 store 绑定到 Vue.prototype.$store 上，可以通过 this.$store 获取 store
 
@@ -33,7 +34,7 @@ const store = new Vuex.Store({
     // 新增record数据
     createRecord(state, record: RecordItem) {
       const record2 = clone(record)
-      record2.createdAt = record2.createdAt || new Date().toISOString()
+      record2.createdAt = dayjs(record2.createdAt).format('YYYY-MM-DD') || dayjs(new Date().toISOString()).format('YYYY-MM-DD')
       // this.recordList && this.recordList.push(record2)
       state.recordList?.push(record2) // 可选链语法
       store.commit('saveRecords')

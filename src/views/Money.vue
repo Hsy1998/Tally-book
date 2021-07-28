@@ -4,6 +4,8 @@
     <Tabs :value.sync="record.type" :data-source="recordTypesList" />
     <div class="notes">
       <FormItem :value.sync="record.createdAt" fild-name="日期" type="date" />
+    </div>
+    <div class="notes">
       <FormItem
         :value.sync="record.notes"
         fild-name="备注"
@@ -72,6 +74,6 @@ export default class Money extends Vue {
   flex-direction: column-reverse;
 }
 .notes {
-  padding: 12px 0;
+  padding: 8px 0;
 }
 </style>

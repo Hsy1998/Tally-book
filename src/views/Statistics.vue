@@ -44,6 +44,7 @@ import recordTypesList from '@/constants/recordTypesList.ts'
 import dayjs from 'dayjs'
 import clone from '@/lib/clone'
 import Charts from '@/components/Charts.vue'
+import _ from 'lodash'
 
 @Component({
   components: { Tabs, Charts },
@@ -92,6 +93,8 @@ export default class Statistics extends Vue {
   }
 
   get x() {
+    console.log(this.recordList.map((r) => _.pick(r, ['createdAt', 'amount'])))
+
     return {
       title: {
         text: 'ECharts 入门示例',
@@ -101,7 +104,17 @@ export default class Statistics extends Vue {
         left: 0,
         right: 0,
       },
-      tooltip: {},
+      tooltip: {
+        show: true,
+        triggerOn: 'click',
+        formatter: '{c}',
+        position: 'top',
+        borderColor: 'none',
+        backgroundColor: 'rgba(50,50,50,0.7)',
+        textStyle: {
+          color: '#fff',
+        },
+      },
       xAxis: {
         type: 'category',
         data: [
@@ -136,14 +149,29 @@ export default class Statistics extends Vue {
           29,
           30,
         ],
+        aixsLine: {
+          lineStyle: {
+            color: '#666',
+          },
+        },
+        axisTick: {
+          alignWithLabel: true,
+        },
       },
       yAxis: {
+        type: 'value',
         show: false,
       },
       series: [
         {
           name: '销量',
           type: 'line',
+          symbol: 'circle',
+          itemStyle: {
+            color: '#666',
+            borderColor: '#666',
+            borderWidth: 1,
+          },
           data: [
             1,
             2,
@@ -176,6 +204,7 @@ export default class Statistics extends Vue {
             29,
             30,
           ],
+          symbolSize: 12,
         },
       ],
     }
@@ -186,7 +215,8 @@ export default class Statistics extends Vue {
   }
   mounted() {
     window.scrollTo(0, 0)
-    ;(this.$refs.ChartsWrapper as HTMLDivElement).scrollLeft = 9999
+    const chartDiv = this.$refs.ChartsWrapper as HTMLDivElement
+    chartDiv.scrollLeft = chartDiv.scrollWidth
   }
   beautify(string: string) {
     const day = dayjs(string)
@@ -262,6 +292,9 @@ export default class Statistics extends Vue {
 }
 .charts-wrapper {
   overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .charts {
   width: 430%;
