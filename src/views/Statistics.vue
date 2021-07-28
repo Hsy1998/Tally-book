@@ -29,7 +29,7 @@
         </li>
       </ol>
       <div v-else class="noResult">
-        目前没有相
+        目前没有相关记录
       </div>
     </div>
   </Layout>
