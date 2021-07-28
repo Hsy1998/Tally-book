@@ -7,7 +7,7 @@
         :data-source="recordTypesList"
       />
       <div class="charts-wrapper" ref="ChartsWrapper">
-        <Charts class="charts" :options="x" />
+        <Charts class="charts" :options="chartOptions" />
       </div>
 
       <ol v-if="groupedList.length > 0">
@@ -50,6 +50,15 @@ import _ from 'lodash'
   components: { Tabs, Charts },
 })
 export default class Statistics extends Vue {
+  created() {
+    this.$store.commit('fetchRecords')
+  }
+  mounted() {
+    window.scrollTo(0, 0)
+    const chartDiv = this.$refs.ChartsWrapper as HTMLDivElement
+    chartDiv.scrollLeft = chartDiv.scrollWidth
+  }
+
   get recordList() {
     return this.$store.state.recordList
   }
@@ -92,12 +101,42 @@ export default class Statistics extends Vue {
     return result
   }
 
-  get x() {
-    console.log(this.recordList.map((r) => _.pick(r, ['createdAt', 'amount'])))
+  get keyValueList() {
+    const today = new Date()
+    const array = []
+    for (let i = 0; i <= 29; i++) {
+      const dateString = dayjs(today)
+        .subtract(i, 'day')
+        .format('YYYY-MM-DD')
+      const foundAmount = _.find(this.groupedList, {
+        title: dateString,
+      })
+      array.push({
+        date: dateString,
+        value: foundAmount ? foundAmount.total : 0,
+      })
+    }
+
+    array.sort((a, b) => {
+      if (a.date > b.date) {
+        return 1
+      } else if (a.date === b.date) {
+        return 0
+      } else {
+        return -1
+      }
+    })
+    return array
+  }
+
+  get chartOptions() {
+    const keys = this.keyValueList.map((item) => item.date)
+    const value = this.keyValueList.map((item) => item.value)
 
     return {
       title: {
-        text: 'ECharts 入门示例',
+        text: '走势图',
+        right: 16,
       },
       grid: {
         // 去掉echarts左右padding
@@ -110,45 +149,14 @@ export default class Statistics extends Vue {
         formatter: '{c}',
         position: 'top',
         borderColor: 'none',
-        backgroundColor: 'rgba(50,50,50,0.7)',
+        backgroundColor: 'rgba(50,50,50,1)',
         textStyle: {
           color: '#fff',
         },
       },
       xAxis: {
         type: 'category',
-        data: [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13,
-          14,
-          15,
-          16,
-          17,
-          18,
-          19,
-          20,
-          21,
-          22,
-          23,
-          24,
-          25,
-          26,
-          27,
-          28,
-          29,
-          30,
-        ],
+        data: keys,
         aixsLine: {
           lineStyle: {
             color: '#666',
@@ -157,6 +165,11 @@ export default class Statistics extends Vue {
         axisTick: {
           alignWithLabel: true,
         },
+        axisLabel: {
+          formatter: function(value: string) {
+            return value.substr(5)
+          },
+        },
       },
       yAxis: {
         type: 'value',
@@ -164,7 +177,6 @@ export default class Statistics extends Vue {
       },
       series: [
         {
-          name: '销量',
           type: 'line',
           symbol: 'circle',
           itemStyle: {
@@ -172,52 +184,13 @@ export default class Statistics extends Vue {
             borderColor: '#666',
             borderWidth: 1,
           },
-          data: [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24,
-            25,
-            26,
-            27,
-            28,
-            29,
-            30,
-          ],
+          data: value,
           symbolSize: 12,
         },
       ],
     }
   }
 
-  created() {
-    this.$store.commit('fetchRecords')
-  }
-  mounted() {
-    window.scrollTo(0, 0)
-    const chartDiv = this.$refs.ChartsWrapper as HTMLDivElement
-    chartDiv.scrollLeft = chartDiv.scrollWidth
-  }
   beautify(string: string) {
     const day = dayjs(string)
     const now = dayjs()
@@ -291,6 +264,7 @@ export default class Statistics extends Vue {
   padding: 16px;
 }
 .charts-wrapper {
+  margin-top: 16px;
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
